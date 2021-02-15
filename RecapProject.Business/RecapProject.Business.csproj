@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="9.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RecapProject.DataAccess\RecapProject.DataAccess.csproj" />
+    <ProjectReference Include="..\RecapProject.Entity\RecapProject.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
