@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Entity.Concrete;
 using Core.Utilities.Results;
 using RecapProject.Business.Abstract;
 using RecapProject.Business.Constants;
@@ -9,7 +10,7 @@ using RecapProject.Entities.Concrete;
 
 namespace RecapProject.Business.Concrete
 {
-    public class UserManager:IUserService
+    public class UserManager : IUserService
     {
         private readonly IUserDal _userDal;
 
@@ -18,16 +19,19 @@ namespace RecapProject.Business.Concrete
             _userDal = userDal;
         }
 
-        public IResult Add(User user)
+        public List<OperationClaim> GetClaims(User user)
         {
-            _userDal.Add(user);
-            _userDal.Update(user);
-            return new SuccessResult(Messages.UserAdd);
+            return _userDal.GetClaims(user);
         }
 
-        public IDataResult<List<User>> GetAll()
+        public void Add(User user)
         {
-            return new SuccessDataResult<List<User>>(_userDal.GetAll());
+            _userDal.Add(user);
+        }
+
+        public User GetByMail(string email)
+        {
+            return _userDal.Get(u => u.Email == email);
         }
     }
 }

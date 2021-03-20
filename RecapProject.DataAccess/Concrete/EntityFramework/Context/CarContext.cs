@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Entity.Concrete;
 using Microsoft.EntityFrameworkCore;
 using RecapProject.Entities.Concrete;
 
@@ -18,6 +19,9 @@ namespace RecapProject.DataAccess.Concrete.EntityFramework.Context
         public DbSet<Brand> Brands { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Rental> Rentals { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,19 +42,30 @@ namespace RecapProject.DataAccess.Concrete.EntityFramework.Context
             modelBuilder.Entity<Brand>().Property(c => c.Id).HasColumnName("Id");
             modelBuilder.Entity<Brand>().Property(c => c.BrandName).HasColumnName("BrandName");
 
-            modelBuilder.Entity<User>().ToTable("Users");
-            modelBuilder.Entity<User>().Property(u => u.Id).HasColumnName("Id");
-            modelBuilder.Entity<User>().Property(u => u.FirstName).HasColumnName("FirstName");
-            modelBuilder.Entity<User>().Property(u => u.LastName).HasColumnName("LastName");
-            modelBuilder.Entity<User>().Property(u => u.Password).HasColumnName("Password");
-            modelBuilder.Entity<User>().Property(u => u.Email).HasColumnName("Email");
-
             modelBuilder.Entity<Rental>().ToTable("Rentals");
             modelBuilder.Entity<Rental>().Property(r => r.Id).HasColumnName("Id");
             modelBuilder.Entity<Rental>().Property(r => r.CarId).HasColumnName("CarId");
             modelBuilder.Entity<Rental>().Property(r => r.CustomerId).HasColumnName("CustomerId");
             modelBuilder.Entity<Rental>().Property(r => r.RentDate).HasColumnName("RentDate");
             modelBuilder.Entity<Rental>().Property(r => r.ReturnDate).HasColumnName("ReturnDate");
+
+            modelBuilder.Entity<CarImage>().ToTable("CarImages");
+            modelBuilder.Entity<CarImage>().Property(c => c.Id).HasColumnName("Id");
+            modelBuilder.Entity<CarImage>().Property(c => c.CarId).HasColumnName("CarId");
+            modelBuilder.Entity<CarImage>().Property(c => c.ImagePath).HasColumnName("ImagePath");
+            modelBuilder.Entity<CarImage>().Property(c => c.Date).HasColumnName("Date");
+
+            //modelBuilder.Entity<User>().ToTable("Users");
+            //modelBuilder.Entity<User>().Property(u => u.Id).HasColumnName("Id");
+            //modelBuilder.Entity<User>().Property(u => u.FirstName).HasColumnName("FirstName");
+            //modelBuilder.Entity<User>().Property(u => u.LastName).HasColumnName("LastName");
+            //modelBuilder.Entity<User>().Property(u => u.Email).HasColumnName("Email");
+
+            //modelBuilder.Entity<OperationClaim>().ToTable("OperationClaims");
+            //modelBuilder.Entity<OperationClaim>().Property(u => u.Id).HasColumnName("Id");
+            //modelBuilder.Entity<OperationClaim>().Property(u => u.Name).HasColumnName("FirstName");
+            //modelBuilder.Entity<OperationClaim>().Property(u => u.LastName).HasColumnName("LastName");
+            //modelBuilder.Entity<OperationClaim>().Property(u => u.Email).HasColumnName("Email");
         }
     }
 }

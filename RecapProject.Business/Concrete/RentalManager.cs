@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using RecapProject.Business.Abstract;
 using RecapProject.Business.Constants;
+using RecapProject.Business.ValidationRules.FluentValidation;
 using RecapProject.DataAccess.Abstract;
 using RecapProject.Entities.Concrete;
 
@@ -17,23 +19,10 @@ namespace RecapProject.Business.Concrete
         {
             _rentalDal = rentalDal;
         }
-
+        [ValidationAspect(typeof(RentalValidator))]
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Rental rental)
         {
-            if (rental.ReturnDate==default)
-            {
-                return new ErrorResult(Messages.CarRentedError);
-            }
-
-            if (rental.ReturnDate<rental.RentDate)
-            {
-                return new ErrorResult(Messages.RentTimeError);
-            }
-
-            if (rental.ReturnDate>=DateTime.Now && rental.RentDate>=DateTime.Now)
-            {
-                return new ErrorResult(Messages.RentAndReturnTimeError);
-            }
             _rentalDal.Add(rental);
             return new SuccessResult(Messages.RentalAdd);
         }

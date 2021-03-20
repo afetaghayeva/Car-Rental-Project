@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace RecapProject.Business.Constants
@@ -27,5 +28,12 @@ namespace RecapProject.Business.Constants
 
         public static string RentTimeError = "Return time must be greater than rent time";
         public static string RentAndReturnTimeError = "Return time and rent time must be smaller than now";
+        public static string AuthorizationDenied= "Authorization Denied";
+        public static string UserRegistered = "User registered";
+        public static string UserNotFound = "User not found";
+        public static string PasswordError = "Password is incorrect";
+        public static string SuccessfulLogin = "Successful login";
+        public static string UserAlreadyExists = "User already exists";
+        public static string AccessTokenCreated = "Access token created";
     }
 }

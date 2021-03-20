@@ -36,22 +36,22 @@ namespace RecapProject.ConsoleUI
         }
 
 
-        private static void UserManager()
-        {
-            UserManager userManager = new UserManager(new EfUserDal());
-            userManager.Add(new User
-            {
-                Email = "afetagayeva.2003@gmail.com",
-                FirstName = "Afet",
-                LastName = "Agayeva",
-                Password = "2554880rr"
-            });
-            var result = userManager.GetAll();
-            foreach (var user in result.Data)
-            {
-                Console.WriteLine(user.Email);
-            }
-        }
+        //private static void UserManager()
+        //{
+        //    UserManager userManager = new UserManager(new EfUserDal());
+        //    userManager.Add(new User
+        //    {
+        //        Email = "afetagayeva.2003@gmail.com",
+        //        FirstName = "Afet",
+        //        LastName = "Agayeva",
+        //        Password = "2554880rr"
+        //    });
+        //    var result = userManager.GetAll();
+        //    foreach (var user in result.Data)
+        //    {
+        //        Console.WriteLine(user.Email);
+        //    }
+        //}
 
         private static void CarDetailDto()
         {

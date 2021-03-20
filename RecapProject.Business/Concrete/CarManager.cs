@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using RecapProject.Business.Abstract;
+using RecapProject.Business.BusinessAspect.Autofac;
 using RecapProject.Business.Constants;
-using RecapProject.Business.Utilities;
 using RecapProject.Business.ValidationRules.FluentValidation;
 using RecapProject.DataAccess.Abstract;
 using RecapProject.Entities.Concrete;
@@ -14,11 +19,14 @@ namespace RecapProject.Business.Concrete
     public class CarManager : ICarService
     {
         private readonly ICarDal _carDal;
+        private ICarService _carServiceImplementation;
 
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
         }
+        [CacheAspect]
+        [PerformanceAspect(2)]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll());
@@ -38,14 +46,17 @@ namespace RecapProject.Business.Concrete
         {
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
-
+        [ValidationAspect(typeof(CarValidator))]
+        [SecuredOperation("car.add,admin")]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
             ValidationTool.FluentValidate(new CarValidator(), car);
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdd);
         }
-
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             ValidationTool.FluentValidate(new CarValidator(), car);
@@ -62,6 +73,12 @@ namespace RecapProject.Business.Concrete
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(),"Listed");
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionTest(Car car)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
